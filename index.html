@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luke Blake</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --blue: #1b4f8a;
+      --gold: #c8a951;
+      --light: #f5f7fa;
+    }
+    body { font-family: 'Open Sans', sans-serif; color: #333; }
+    h1, h2, h3, h4, h5, .navbar-brand { font-family: 'Montserrat', sans-serif; }
+
+    /* Navbar */
+    .navbar { background-color: var(--navy) !important; }
+    .navbar-brand { color: var(--gold) !important; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; }
+    .nav-link { color: rgba(255,255,255,.85) !important; font-weight: 500; }
+    .nav-link:hover { color: var(--gold) !important; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      color: white;
+      padding: 120px 0 90px;
+    }
+    .hero h1 { font-size: 3.5rem; font-weight: 700; letter-spacing: -1px; }
+    .hero .lead { font-size: 1.25rem; opacity: .85; }
+    .hero .tagline { color: var(--gold); font-weight: 600; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
+    .btn-gold { background-color: var(--gold); color: var(--navy); font-weight: 700; border: none; padding: 12px 30px; border-radius: 4px; }
+    .btn-gold:hover { background-color: #b8953e; color: var(--navy); }
+    .btn-outline-light-custom { border: 2px solid rgba(255,255,255,.6); color: white; font-weight: 600; padding: 12px 30px; border-radius: 4px; }
+    .btn-outline-light-custom:hover { background: rgba(255,255,255,.15); color: white; }
+
+    /* Sections */
+    section { padding: 80px 0; }
+    .section-title { font-size: 2rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+    .section-divider { width: 50px; height: 3px; background: var(--gold); margin-bottom: 40px; }
+    .bg-light-custom { background-color: var(--light); }
+
+    /* About */
+    .about-stat { text-align: center; }
+    .about-stat .number { font-size: 2.5rem; font-weight: 700; color: var(--blue); font-family: 'Montserrat', sans-serif; }
+    .about-stat .label { font-size: .9rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Experience cards */
+    .exp-card {
+      border: none;
+      border-left: 4px solid var(--gold);
+      border-radius: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: box-shadow .2s;
+    }
+    .exp-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+    .exp-card .company { font-weight: 700; color: var(--navy); font-family: 'Montserrat', sans-serif; }
+    .exp-card .role { color: var(--blue); font-weight: 600; }
+    .exp-card .dates { font-size: .85rem; color: #888; }
+
+    /* Skills */
+    .skill-badge {
+      display: inline-block;
+      background-color: #e8eef6;
+      color: var(--navy);
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin: 5px;
+      font-size: .9rem;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer { background-color: var(--navy); color: rgba(255,255,255,.7); padding: 40px 0; }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: #e8c06a; }
+    .social-icon { font-size: 1.5rem; color: rgba(255,255,255,.6); margin: 0 10px; transition: color .2s; }
+    .social-icon:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">LB</a>
+      <button class="navbar-toggler border-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-2">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="resume.html">Résumé</a></li>
+          <li class="nav-item"><a class="nav-link" href="mailto:luketblake@gmail.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <p class="tagline mb-3">Pre-Business · BYU</p>
+          <h1>Luke Blake</h1>
+          <p class="lead mt-3 mb-4">
+            Aspiring business professional with hands-on experience in sales, marketing, and operations.
+            Passionate about startups, high-endurance sports, and building things that work.
+          </p>
+          <a href="resume.html" class="btn btn-gold me-3">View Résumé</a>
+          <a href="mailto:luketblake@gmail.com" class="btn btn-outline-light-custom">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="bg-white border-bottom py-4">
+    <div class="container">
+      <div class="row text-center g-4">
+        <div class="col-6 col-md-3">
+          <div class="about-stat">
+            <div class="number">5+</div>
+            <div class="label">Internships & Roles</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="about-stat">
+            <div class="number">$200K+</div>
+            <div class="label">Sales Revenue Generated</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="about-stat">
+            <div class="number">3.80</div>
+            <div class="label">GPA at BYU</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="about-stat">
+            <div class="number">2</div>
+            <div class="label">Years Abroad (Chile)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section class="bg-light-custom">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="section-divider"></div>
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-7">
+          <p class="fs-5">
+            I'm a sophomore at Brigham Young University studying Pre-Business, expected to graduate in April 2028.
+            I'm currently an intern at <strong>Fire Science Nutrition</strong>, a hydration supplement startup, where I
+            oversee product strategy and marketing campaigns.
+          </p>
+          <p>
+            Before college I spent two years as a volunteer representative in Santiago, Chile — an experience that sharpened
+            my cross-cultural communication, Spanish fluency, and ability to lead under pressure. Back in the US, I've
+            generated over $200,000 in contract revenue through door-to-door sales, automated board-level KPI reporting
+            systems, and contributed to software adoption at a SaaS firm.
+          </p>
+          <p>
+            I'm drawn to the intersection of business strategy and entrepreneurship. Outside of work, you'll find me on
+            the mountain skiing or tracking my personal investment portfolio.
+          </p>
+        </div>
+        <div class="col-lg-5">
+          <div class="bg-white rounded-3 shadow-sm p-4">
+            <h5 class="fw-bold mb-3" style="color: var(--navy);">Quick Facts</h5>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-mortarboard-fill text-warning me-2"></i> BYU — Pre-Business, Class of 2028</li>
+              <li class="mb-2"><i class="bi bi-geo-alt-fill text-warning me-2"></i> Provo, UT</li>
+              <li class="mb-2"><i class="bi bi-translate text-warning me-2"></i> Conversational Spanish</li>
+              <li class="mb-2"><i class="bi bi-graph-up-arrow text-warning me-2"></i> Personal Investment Portfolio</li>
+              <li class="mb-2"><i class="bi bi-snow text-warning me-2"></i> Avid Skier</li>
+              <li class="mb-2"><i class="bi bi-rocket-takeoff-fill text-warning me-2"></i> Startup Enthusiast</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Highlights -->
+  <section>
+    <div class="container">
+      <h2 class="section-title">Experience Highlights</h2>
+      <div class="section-divider"></div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="exp-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="company">Fire Science Nutrition</div>
+                <div class="role">Intern</div>
+              </div>
+              <span class="dates">Feb 2026 – Present</span>
+            </div>
+            <p class="mb-0 text-muted small">Driving product strategy and marketing campaigns for a hydration supplement startup. Managing ambassador programs and representing the brand at major trade shows.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="exp-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="company">Grit Marketing</div>
+                <div class="role">Sales Rep</div>
+              </div>
+              <span class="dates">May – Aug 2025</span>
+            </div>
+            <p class="mb-0 text-muted small">Generated $200,000+ in new contract revenue within 10 weeks through door-to-door sales. Ranked top 20 of 150+ first-year reps.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="exp-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="company">Make it Market Ready</div>
+                <div class="role">Performance Strategy Intern</div>
+              </div>
+              <span class="dates">Sep – Dec 2025</span>
+            </div>
+            <p class="mb-0 text-muted small">Automated 22 board KPIs and rebuilt KPI reporting infrastructure. Eliminated data inconsistencies across departments to improve executive decision-making.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="exp-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <div class="company">Brainstorm Inc.</div>
+                <div class="role">Learning Experience Intern</div>
+              </div>
+              <span class="dates">Aug – Dec 2024</span>
+            </div>
+            <p class="mb-0 text-muted small">Collaborated cross-functionally to create and update platform content at a SaaS software adoption firm. Streamlined departmental workflows and digital asset management.</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="resume.html" class="btn btn-gold">See Full Résumé</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="bg-light-custom">
+    <div class="container">
+      <h2 class="section-title">Skills & Interests</h2>
+      <div class="section-divider"></div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h5 class="fw-bold mb-3" style="color: var(--navy);">Business Skills</h5>
+          <span class="skill-badge">Sales Strategy</span>
+          <span class="skill-badge">KPI Reporting</span>
+          <span class="skill-badge">Marketing Campaigns</span>
+          <span class="skill-badge">Data Analysis</span>
+          <span class="skill-badge">Process Automation</span>
+        </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold mb-3" style="color: var(--navy);">Tools & Languages</h5>
+          <span class="skill-badge">Excel / Google Sheets</span>
+          <span class="skill-badge">Conversational Spanish</span>
+          <span class="skill-badge">E-commerce Platforms</span>
+          <span class="skill-badge">SaaS Tools</span>
+          <span class="skill-badge">HTML / CSS</span>
+        </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold mb-3" style="color: var(--navy);">Interests</h5>
+          <span class="skill-badge">Skiing &amp; Snowboarding</span>
+          <span class="skill-badge">Investing</span>
+          <span class="skill-badge">Startups</span>
+          <span class="skill-badge">Stock Pitch Competitions</span>
+          <span class="skill-badge">Endurance Sports</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <span class="fw-bold fs-5" style="color: var(--gold); font-family: 'Montserrat', sans-serif;">Luke Blake</span>
+          <p class="small mt-1 mb-0">Pre-Business · BYU · Class of 2028</p>
+        </div>
+        <div class="col-md-4 text-center mb-3 mb-md-0">
+          <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          <a href="https://github.com" target="_blank" class="social-icon" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="mailto:luketblake@gmail.com" class="social-icon" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <p class="small mb-0">
+            <a href="resume.html">Résumé</a> ·
+            <a href="mailto:luketblake@gmail.com">Contact</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

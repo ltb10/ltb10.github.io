@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résumé – Luke Blake</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --blue: #1b4f8a;
+      --gold: #c8a951;
+      --light: #f5f7fa;
+    }
+    body { font-family: 'Open Sans', sans-serif; color: #333; background-color: var(--light); }
+    h1, h2, h3, h4, h5, .navbar-brand { font-family: 'Montserrat', sans-serif; }
+
+    /* Navbar */
+    .navbar { background-color: var(--navy) !important; }
+    .navbar-brand { color: var(--gold) !important; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; }
+    .nav-link { color: rgba(255,255,255,.85) !important; font-weight: 500; }
+    .nav-link:hover { color: var(--gold) !important; }
+
+    /* Resume container */
+    .resume-wrapper {
+      max-width: 860px;
+      margin: 40px auto 60px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.1);
+      overflow: hidden;
+    }
+
+    /* Resume header */
+    .resume-header {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: white;
+      padding: 48px 48px 36px;
+    }
+    .resume-header h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 6px; }
+    .resume-header .title { color: var(--gold); font-size: 1.05rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .contact-item { font-size: .9rem; opacity: .85; margin-right: 20px; }
+    .contact-item i { margin-right: 5px; color: var(--gold); }
+
+    /* Resume body */
+    .resume-body { padding: 40px 48px; }
+    .section-header {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin-bottom: 22px;
+      margin-top: 36px;
+    }
+    .section-header:first-of-type { margin-top: 0; }
+
+    /* Education */
+    .edu-entry .school { font-weight: 700; font-size: 1.05rem; color: var(--navy); }
+    .edu-entry .degree { color: var(--blue); font-weight: 600; }
+    .edu-entry .meta { font-size: .85rem; color: #666; }
+    .gpa-badge {
+      display: inline-block;
+      background: #e8f0fb;
+      color: var(--blue);
+      font-weight: 700;
+      font-size: .85rem;
+      border-radius: 4px;
+      padding: 2px 10px;
+    }
+
+    /* Experience */
+    .exp-entry { margin-bottom: 28px; }
+    .exp-entry .company { font-weight: 700; color: var(--navy); font-size: 1rem; }
+    .exp-entry .role { font-weight: 600; color: var(--blue); }
+    .exp-entry .location-date { font-size: .83rem; color: #888; }
+    .exp-entry ul { margin-top: 8px; padding-left: 18px; }
+    .exp-entry ul li { margin-bottom: 4px; font-size: .93rem; line-height: 1.55; }
+
+    /* Skills/Awards */
+    .skill-tag {
+      display: inline-block;
+      background: #e8eef6;
+      color: var(--navy);
+      border-radius: 3px;
+      padding: 4px 12px;
+      margin: 4px;
+      font-size: .85rem;
+    }
+    .award-item { font-size: .93rem; margin-bottom: 6px; }
+    .award-item i { color: var(--gold); margin-right: 6px; }
+
+    /* Print button */
+    .print-btn { background-color: var(--gold); color: var(--navy); font-weight: 700; border: none; }
+    .print-btn:hover { background-color: #b8953e; color: var(--navy); }
+    @media print {
+      .navbar, .print-bar { display: none !important; }
+      .resume-wrapper { box-shadow: none; margin: 0; border-radius: 0; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">LB</a>
+      <button class="navbar-toggler border-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-2">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="resume.html">Résumé</a></li>
+          <li class="nav-item"><a class="nav-link" href="mailto:luketblake@gmail.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Print bar -->
+  <div class="print-bar bg-white border-bottom py-2">
+    <div class="container text-end">
+      <button class="btn btn-sm print-btn" onclick="window.print()">
+        <i class="bi bi-printer me-1"></i> Print / Save as PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Resume -->
+  <div class="resume-wrapper">
+
+    <!-- Header -->
+    <div class="resume-header">
+      <h1>Luke Blake</h1>
+      <p class="title mb-4">Pre-Business Student · BYU</p>
+      <div class="d-flex flex-wrap">
+        <span class="contact-item"><i class="bi bi-envelope-fill"></i>luketblake@gmail.com</span>
+        <span class="contact-item"><i class="bi bi-telephone-fill"></i>(801) 822-9164</span>
+        <span class="contact-item"><i class="bi bi-geo-alt-fill"></i>Provo, UT</span>
+        <span class="contact-item"><i class="bi bi-linkedin"></i>LinkedIn</span>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="resume-body">
+
+      <!-- Education -->
+      <div class="section-header">Education</div>
+      <div class="edu-entry d-flex justify-content-between align-items-start flex-wrap">
+        <div>
+          <div class="school">Brigham Young University</div>
+          <div class="degree">Pre-Business</div>
+          <div class="meta mt-1">
+            Opportunity Scholarship &amp; Academic Scholarship
+            &nbsp;·&nbsp; Finance Society Member
+          </div>
+          <div class="meta mt-1">
+            <strong>Relevant Courses:</strong> Principles of Accounting, Marketing, Economic Principles,
+            Principles of Finance, Intro to Statistical Data Analysis, Intro to Information Systems
+          </div>
+        </div>
+        <div class="text-end mt-1">
+          <div class="meta">Provo, UT</div>
+          <div class="meta">Expected Apr 2028</div>
+          <div class="mt-2"><span class="gpa-badge">GPA 3.80 / 4.00</span></div>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="section-header">Experience</div>
+
+      <div class="exp-entry">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div>
+            <span class="company">Fire Science Nutrition</span>
+            <span class="text-muted small ms-2">— Hydration Supplement Start-up</span>
+          </div>
+          <span class="location-date">Lehi, UT</span>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="role">Intern</div>
+          <span class="location-date">Feb 2026 – Present</span>
+        </div>
+        <ul>
+          <li>Oversee strategic product initiatives and marketing campaigns to expand awareness and elevate brand perception.</li>
+          <li>Cultivate customer and ambassador engagement across e-commerce platforms to maintain customer satisfaction.</li>
+          <li>Represent the company at major industry trade shows and assist with direct sales efforts to reach revenue goals.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div>
+            <span class="company">Make it Market Ready</span>
+            <span class="text-muted small ms-2">— Home Value Optimization Services</span>
+          </div>
+          <span class="location-date">Provo, UT</span>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="role">Performance Strategy Intern</div>
+          <span class="location-date">Sep 2025 – Dec 2025</span>
+        </div>
+        <ul>
+          <li>Rebuilt KPI reporting structure, enhancing financial visibility and improving strategic planning discussions.</li>
+          <li>Eliminated duplicate and inconsistent data across departments, increasing metric reliability and decision confidence.</li>
+          <li>Automated 22 board KPIs, reducing manual reporting errors and improving performance visibility across leadership.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div>
+            <span class="company">Grit Marketing</span>
+            <span class="text-muted small ms-2">— Door to Door Marketing</span>
+          </div>
+          <span class="location-date">Columbus, OH</span>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="role">Sales Rep</div>
+          <span class="location-date">May 2025 – Aug 2025</span>
+        </div>
+        <ul>
+          <li>Executed door-to-door prospecting and contract closings that expanded market penetration and boosted team sales.</li>
+          <li>Generated <strong>$200,000+ in new contract revenue</strong> within 10 weeks, helping the team exceed collective sales goals.</li>
+          <li>Recognized as <strong>top 20 of 150+ first-year reps</strong> for strong conversions and consistency.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div>
+            <span class="company">Squeeze Media</span>
+            <span class="text-muted small ms-2">— Sales Experience / Business Process Outsourcing</span>
+          </div>
+          <span class="location-date">Orem, UT</span>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="role">Sales Support Specialist</div>
+          <span class="location-date">Feb 2025 – May 2025</span>
+        </div>
+        <ul>
+          <li>Qualified and converted high-intent homeowner leads into sales appointments, strengthening the sales pipeline.</li>
+          <li>Optimized lead hand-off process, ensuring seamless transition from initial contact to Loan Officers.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div>
+            <span class="company">Brainstorm Inc.</span>
+            <span class="text-muted small ms-2">— Software Adoption &amp; Training, SaaS</span>
+          </div>
+          <span class="location-date">American Fork, UT</span>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="role">Learning Experience Intern</div>
+          <span class="location-date">Aug 2024 – Dec 2024</span>
+        </div>
+        <ul>
+          <li>Partnered with multiple teams to create and update platform content, improving consistency and strategic alignment.</li>
+          <li>Streamlined departmental workflows to maintain accurate and organized data across critical business digital systems.</li>
+        </ul>
+      </div>
+
+      <!-- Leadership -->
+      <div class="section-header">Leadership &amp; Service</div>
+      <div class="exp-entry">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div><span class="company">The Church of Jesus Christ of Latter-day Saints</span></div>
+          <span class="location-date">Santiago, Chile</span>
+        </div>
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="role">Volunteer Representative</div>
+          <span class="location-date">Aug 2022 – Jul 2024</span>
+        </div>
+        <ul>
+          <li>Served local communities and built meaningful relationships with individuals and families across Chile, developing cross-cultural communication and adaptability.</li>
+          <li>Traveled across the region as a senior leader to train, mentor, and support team members in planning, performance, and personal development.</li>
+        </ul>
+      </div>
+
+      <!-- Awards & Skills -->
+      <div class="section-header">Awards, Skills &amp; Interests</div>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="fw-semibold mb-2" style="color: var(--navy);">Awards &amp; Achievements</p>
+          <div class="award-item"><i class="bi bi-trophy-fill"></i> Graduated top of Pleasant Grove High School Class of 2022</div>
+          <div class="award-item"><i class="bi bi-bar-chart-fill"></i> Top 20 of 150+ first-year reps — Grit Marketing</div>
+          <div class="award-item"><i class="bi bi-award-fill"></i> Opportunity Scholarship, BYU Academic Scholarship</div>
+          <div class="award-item"><i class="bi bi-graph-up-arrow"></i> Competed in Cougar Capital 2026 Stock Pitch Case Competition</div>
+        </div>
+        <div class="col-md-6">
+          <p class="fw-semibold mb-2" style="color: var(--navy);">Skills &amp; Interests</p>
+          <div>
+            <span class="skill-tag">Conversational Spanish</span>
+            <span class="skill-tag">Sales Strategy</span>
+            <span class="skill-tag">KPI Reporting</span>
+            <span class="skill-tag">E-commerce</span>
+            <span class="skill-tag">Investment Portfolio Mgmt</span>
+            <span class="skill-tag">Skiing &amp; Snowboarding</span>
+            <span class="skill-tag">Startup Operations</span>
+            <span class="skill-tag">HTML / CSS</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end resume-body -->
+  </div><!-- end resume-wrapper -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

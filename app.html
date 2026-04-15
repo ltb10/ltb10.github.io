@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snow Day Planner | Luke Blake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ── */
+    :root {
+      --navy: #0a2342;
+      --blue: #1a3d6b;
+      --sky: #3a7abf;
+      --gold: #e8a020;
+      --snow: #f0f4f8;
+      --white: #ffffff;
+      --text: #1a1a2e;
+      --muted: #6b7a99;
+      --success: #2ecc71;
+      --card-bg: rgba(255,255,255,.06);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Body / App wrapper ── */
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(160deg, #0a2342 0%, #1a3d6b 40%, #0f3060 100%);
+      min-height: 100vh;
+      color: var(--white);
+    }
+
+    /* ── Back link ── */
+    .back-bar {
+      padding: 14px 30px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .back-bar a {
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      font-size: .85rem;
+      transition: color .2s;
+    }
+    .back-bar a:hover { color: var(--gold); }
+    .back-bar .dot { color: rgba(255,255,255,.2); }
+
+    /* ── App container ── */
+    .app-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Header ── */
+    .app-header { text-align: center; margin-bottom: 44px; }
+    .app-header .label {
+      font-size: .8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .app-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+    .app-header p {
+      color: rgba(255,255,255,.65);
+      font-size: .97rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ── Form card ── */
+    .form-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      padding: 36px 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-section-title {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.12);
+    }
+
+    /* ── Form grid ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+    .form-grid.full { grid-template-columns: 1fr; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.7);
+      letter-spacing: .4px;
+    }
+    .form-group select,
+    .form-group input[type="range"] {
+      width: 100%;
+    }
+    .form-group select {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 6px;
+      color: var(--white);
+      padding: 10px 14px;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23e8a020' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(232,160,32,.2);
+    }
+    .form-group select option {
+      background: var(--navy);
+      color: white;
+    }
+
+    /* Chip selectors */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      background: rgba(255,255,255,.08);
+      border: 1.5px solid rgba(255,255,255,.18);
+      border-radius: 50px;
+      padding: 7px 16px;
+      font-size: .84rem;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
+      color: rgba(255,255,255,.75);
+    }
+    .chip:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.3); }
+    .chip.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* Divider between form sections */
+    .form-divider { height: 1px; background: rgba(255,255,255,.1); margin: 28px 0; }
+
+    /* ── Generate button ── */
+    .generate-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold) 0%, #f5c842 100%);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1.05rem;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 8px;
+      padding: 18px 24px;
+      cursor: pointer;
+      letter-spacing: .5px;
+      transition: opacity .2s, transform .15s;
+      margin-top: 8px;
+    }
+    .generate-btn:hover { opacity: .9; transform: translateY(-2px); }
+    .generate-btn:active { transform: translateY(0); }
+    .generate-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    /* ── Result card ── */
+    #result-section { display: none; }
+
+    .result-card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 12px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      animation: fadeUp .4s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .result-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--white);
+    }
+    .result-subtitle { color: rgba(255,255,255,.6); font-size: .9rem; margin-top: 4px; }
+
+    .difficulty-badge {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 5px 14px;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .badge-beginner  { background: #2ecc71; color: #0a2342; }
+    .badge-intermediate { background: #3498db; color: white; }
+    .badge-advanced  { background: #e74c3c; color: white; }
+    .badge-expert    { background: #2c3e50; color: #e74c3c; border: 1px solid #e74c3c; }
+
+    /* Info pills row */
+    .info-pills { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .pill {
+      background: rgba(255,255,255,.1);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: .82rem;
+      color: rgba(255,255,255,.8);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pill .icon { font-size: 1rem; }
+
+    /* Itinerary timeline */
+    .itinerary-title {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .day-block { margin-bottom: 24px; }
+    .day-label {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .day-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.1);
+    }
+
+    .time-entry {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 8px;
+      align-items: flex-start;
+    }
+    .time-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.4);
+      min-width: 60px;
+      padding-top: 2px;
+      letter-spacing: .3px;
+    }
+    .time-text {
+      font-size: .9rem;
+      color: rgba(255,255,255,.8);
+      line-height: 1.55;
+    }
+
+    /* Gear checklist */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .88rem;
+      color: rgba(255,255,255,.75);
+    }
+    .check-item .checkmark {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      background: rgba(46, 204, 113, .2);
+      border: 1px solid rgba(46, 204, 113, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      flex-shrink: 0;
+      color: var(--success);
+    }
+
+    /* Budget breakdown */
+    .budget-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      font-size: .9rem;
+    }
+    .budget-row:last-child { border-bottom: none; }
+    .budget-row .item { color: rgba(255,255,255,.7); }
+    .budget-row .cost { font-weight: 600; color: var(--white); }
+    .budget-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+
+    /* Tabs inside result */
+    .result-tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      margin-bottom: 24px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.45);
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      cursor: pointer;
+      letter-spacing: .3px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all .2s;
+    }
+    .tab-btn:hover { color: rgba(255,255,255,.8); }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Reset button */
+    .reset-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,.25);
+      color: rgba(255,255,255,.6);
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .reset-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Snow particle animation in header */
+    .snowflakes { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; overflow: hidden; height: 120px; }
+    .sf { position: absolute; color: rgba(255,255,255,.4); animation: fall linear infinite; font-size: .9rem; }
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: .6; }
+      100% { transform: translateY(130px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .form-grid, .form-grid.three, .checklist-grid { grid-template-columns: 1fr; }
+      .form-card, .result-card { padding: 24px 20px; }
+      .app-header h1 { font-size: 2.8rem; }
+      .result-title { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Back navigation -->
+  <div class="back-bar">
+    <a href="scratch.html">← Ski Page</a>
+    <span class="dot">·</span>
+    <a href="index.html">Portfolio</a>
+    <span class="dot">·</span>
+    <a href="resume.html">Résumé</a>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="app-header" style="position: relative;">
+      <div class="snowflakes" id="snowflakes"></div>
+      <p class="label">Utah Mountain Trip Generator</p>
+      <h1>❄ SNOW DAY<br>PLANNER</h1>
+      <p>Tell us your style, group, and budget — we'll build your perfect Utah ski trip itinerary.</p>
+    </header>
+
+    <!-- ── FORM ── -->
+    <div class="form-card" id="planner-form">
+
+      <!-- Section 1: Activity -->
+      <p class="form-section-title">Your Ride</p>
+      <div class="form-group">
+        <label>What are you riding?</label>
+        <div class="chip-group" id="activity-chips">
+          <span class="chip selected" data-val="skiing">⛷ Skiing</span>
+          <span class="chip" data-val="snowboarding">🏂 Snowboarding</span>
+          <span class="chip" data-val="both">⛷🏂 Both</span>
+          <span class="chip" data-val="snowshoeing">🥾 Snowshoeing</span>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Section 2: Skill + Vibe -->
+      <p class="form-section-title">Skill &amp; Vibe</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="skill">Skill Level</label>
+          <select id="skill">
+            <option value="beginner">🟢 Beginner — first few times</option>
+            <option value="intermediate" selected>🔵 Intermediate — comfortable on blues</option>
+            <option value="advanced">⚫ Advanced — blacks are home</option>
+            <option value="expert">💀 Expert — double blacks &amp; backcountry</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="vibe">Trip Vibe</label>
+          <select id="vibe">
+            <option value="chill">😎 Chill — relaxed pace, good food</option>
+            <option value="send-it" selected>🚀 Send It — maximize vertical feet</option>
+            <option value="social">🍺 Social — group energy, après ski</option>
+            <option value="adventure">🎿 Adventure — backcountry or side-country</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Section 3: Group + Duration -->
+      <p class="form-section-title">Group Details</p>
+      <div class="form-grid three">
+        <div class="form-group">
+          <label for="group-size">Group Size</label>
+          <select id="group-size">
+            <option value="solo">Solo</option>
+            <option value="duo" selected>Just 2 of us</option>
+            <option value="small">Small group (3–5)</option>
+            <option value="large">Crew (6+)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="duration">Trip Length</label>
+          <select id="duration">
+            <option value="day">Day trip</option>
+            <option value="weekend" selected>Weekend (2 days)</option>
+            <option value="threeday">Long weekend (3 days)</option>
+            <option value="week">Full week</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="stay">Staying</label>
+          <select id="stay">
+            <option value="commute">Commuting from home</option>
+            <option value="budget">Budget lodge / hostel</option>
+            <option value="mid" selected>Mid-range hotel</option>
+            <option value="luxury">Ski-in / Ski-out luxury</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Section 4: Resort + Budget -->
+      <p class="form-section-title">Resort &amp; Budget</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="resort-pref">Resort Preference</label>
+          <select id="resort-pref">
+            <option value="surprise">🎲 Surprise me</option>
+            <option value="alta-snowbird">Alta / Snowbird (powder mecca)</option>
+            <option value="park-city">Park City (variety, biggest resort)</option>
+            <option value="deer-valley">Deer Valley (luxury, no boarders)</option>
+            <option value="powder-mountain">Powder Mountain (uncrowded)</option>
+            <option value="brighton">Brighton (accessible, budget-friendly)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="budget">Budget per Person</label>
+          <select id="budget">
+            <option value="budget">💰 Budget — under $150/day</option>
+            <option value="moderate" selected>💵 Moderate — $150–300/day</option>
+            <option value="splurge">💎 Splurge — $300–500/day</option>
+            <option value="baller">👑 No limit — let's go</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Generate button -->
+      <div style="margin-top: 28px;">
+        <button class="generate-btn" id="generate-btn" onclick="generatePlan()">
+          ❄ Generate My Trip Plan
+        </button>
+      </div>
+
+    </div><!-- end form-card -->
+
+
+    <!-- ── RESULT ── -->
+    <div id="result-section">
+      <div class="result-card">
+
+        <div class="result-header">
+          <div>
+            <div class="result-title" id="result-title">LOADING...</div>
+            <div class="result-subtitle" id="result-subtitle">Utah Ski Trip</div>
+          </div>
+          <div id="difficulty-badge"></div>
+        </div>
+
+        <!-- Info pills -->
+        <div class="info-pills" id="info-pills"></div>
+
+        <!-- Tabs -->
+        <div class="result-tabs">
+          <button class="tab-btn active" onclick="switchTab('itinerary', this)">📅 Itinerary</button>
+          <button class="tab-btn" onclick="switchTab('gear', this)">🎿 Gear Checklist</button>
+          <button class="tab-btn" onclick="switchTab('budget', this)">💰 Budget Breakdown</button>
+          <button class="tab-btn" onclick="switchTab('tips', this)">💡 Pro Tips</button>
+        </div>
+
+        <!-- Tab: Itinerary -->
+        <div class="tab-panel active" id="tab-itinerary">
+          <div id="itinerary-content"></div>
+        </div>
+
+        <!-- Tab: Gear -->
+        <div class="tab-panel" id="tab-gear">
+          <div class="itinerary-title">PACK THIS</div>
+          <div class="checklist-grid" id="gear-content"></div>
+        </div>
+
+        <!-- Tab: Budget -->
+        <div class="tab-panel" id="tab-budget">
+          <div class="itinerary-title">COST PER PERSON</div>
+          <div id="budget-content"></div>
+        </div>
+
+        <!-- Tab: Tips -->
+        <div class="tab-panel" id="tab-tips">
+          <div class="itinerary-title">INSIDER KNOWLEDGE</div>
+          <div id="tips-content"></div>
+        </div>
+
+      </div><!-- end result-card -->
+
+      <!-- Reset -->
+      <div style="text-align: center;">
+        <button class="reset-btn" onclick="resetPlanner()">← Plan a different trip</button>
+      </div>
+    </div><!-- end result-section -->
+
+  </div><!-- end app-container -->
+
+
+  <script>
+    /* ========================================
+       Snow Day Planner — JS Logic
+       ======================================== */
+
+    // ── Chip selection (single-select) ──
+    document.querySelectorAll('.chip-group').forEach(group => {
+      group.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+        });
+      });
+    });
+
+    // ── Snowflake animation ──
+    (function() {
+      const container = document.getElementById('snowflakes');
+      const flakes = ['❄', '❅', '❆', '·', '·'];
+      for (let i = 0; i < 18; i++) {
+        const sf = document.createElement('span');
+        sf.className = 'sf';
+        sf.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+        sf.style.left = Math.random() * 100 + '%';
+        sf.style.animationDuration = (2.5 + Math.random() * 4) + 's';
+        sf.style.animationDelay = (Math.random() * 4) + 's';
+        sf.style.fontSize = (.6 + Math.random() * .9) + 'rem';
+        container.appendChild(sf);
+      }
+    })();
+
+    // ── Tab switching ──
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + name).classList.add('active');
+    }
+
+    // ── Reset ──
+    function resetPlanner() {
+      document.getElementById('result-section').style.display = 'none';
+      document.getElementById('planner-form').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Resort data ──
+    const RESORTS = {
+      'alta-snowbird': {
+        name: 'Alta + Snowbird',
+        vertical: '3,240 ft vertical',
+        snowfall: '500–550" avg snowfall',
+        vibe: 'Powder Mecca — North America's deepest powder',
+        bestFor: ['advanced', 'expert'],
+        liftTicket: { budget: 95, moderate: 130, splurge: 155, baller: 155 },
+        lodgingPerNight: { commute: 0, budget: 75, mid: 175, luxury: 450 },
+        topRuns: ['High Rustler', 'Alf's High Rustler', 'East Castle', 'Supreme Chutes'],
+        liftNote: 'Buy tickets at the window or Ikon Pass'
+      },
+      'park-city': {
+        name: 'Park City Mountain',
+        vertical: '3,226 ft vertical',
+        snowfall: '360" avg snowfall',
+        vibe: 'Biggest Resort in the US — incredible variety',
+        bestFor: ['beginner', 'intermediate', 'advanced'],
+        liftTicket: { budget: 100, moderate: 140, splurge: 175, baller: 175 },
+        lodgingPerNight: { commute: 0, budget: 90, mid: 200, luxury: 550 },
+        topRuns: ['Thaynes Canyon', 'Jupiter Peak', 'DreamScape', 'King Con Ridge'],
+        liftNote: 'Epic Pass or advance purchase for best rates'
+      },
+      'deer-valley': {
+        name: 'Deer Valley',
+        vertical: '3,000 ft vertical',
+        snowfall: '300" avg snowfall',
+        vibe: 'White-glove luxury — skiers only',
+        bestFor: ['beginner', 'intermediate', 'advanced'],
+        liftTicket: { budget: 110, moderate: 150, splurge: 185, baller: 185 },
+        lodgingPerNight: { commute: 0, budget: 100, mid: 250, luxury: 700 },
+        topRuns: ['Mayflower', 'Stein's Way', 'Perseverance', 'Empire Canyon'],
+        liftNote: 'No snowboards — ski only resort'
+      },
+      'powder-mountain': {
+        name: 'Powder Mountain',
+        vertical: '2,772 ft vertical',
+        snowfall: '500" avg snowfall',
+        vibe: 'North America's largest resort — intentionally uncrowded',
+        bestFor: ['intermediate', 'advanced', 'expert'],
+        liftTicket: { budget: 75, moderate: 105, splurge: 125, baller: 125 },
+        lodgingPerNight: { commute: 0, budget: 65, mid: 140, luxury: 320 },
+        topRuns: ['Lightning Ridge', 'Hidden Lake', 'Sundown Bowl', 'Cobabe Canyon'],
+        liftNote: 'No Epic or Ikon — buy direct for best deal'
+      },
+      'brighton': {
+        name: 'Brighton Resort',
+        vertical: '1,875 ft vertical',
+        snowfall: '500" avg snowfall',
+        vibe: 'Best bang for your buck on the Wasatch',
+        bestFor: ['beginner', 'intermediate'],
+        liftTicket: { budget: 70, moderate: 90, splurge: 95, baller: 95 },
+        lodgingPerNight: { commute: 0, budget: 55, mid: 130, luxury: 280 },
+        topRuns: ['Millicent', 'Great Western', 'Milly Bowl', 'Snake Creek Canyon'],
+        liftNote: 'Night skiing available — great for an evening session'
+      }
+    };
+
+    const RESORT_KEYS = Object.keys(RESORTS);
+
+    // ── Itinerary templates ──
+    function buildItinerary(resort, skill, vibe, duration, activity) {
+      const days = { day: 1, weekend: 2, threeday: 3, week: 7 }[duration];
+      let html = '';
+      const actLabel = { skiing: 'ski', snowboarding: 'ride', both: 'ski/ride', snowshoeing: 'snowshoe' }[activity];
+
+      for (let d = 1; d <= Math.min(days, 4); d++) {
+        const dayLabel = days === 1 ? 'Trip Day' : `Day ${d}`;
+        html += `<div class="day-block"><div class="day-label">${dayLabel}</div>`;
+
+        // Day 1 always gets a full morning plan
+        if (d === 1) {
+          html += schedule([
+            ['6:30 AM', 'Wake up, eat a solid breakfast — oatmeal, eggs, or grab something at the resort.'],
+            ['7:45 AM', `Drive up. Arrive at ${resort.name} early to beat the parking rush and get first lifts.`],
+            ['8:45 AM', `Gear up, warm up. ${skill === 'beginner' ? 'Head to the beginner area for a couple warm-up runs.' : 'Do 1–2 easy warm-up runs to get your legs under you.'}`],
+            ['9:15 AM', `Send it. ${vibe === 'send-it' ? 'Start ticking off as many vertical feet as possible — aim for 15,000+ ft by lunch.' : vibe === 'adventure' ? 'Explore the outer boundary and look for untracked lines away from the crowds.' : vibe === 'social' ? 'Ski / ride as a group, stop for photos, and find the best on-mountain eats.' : 'Cruise at your own pace, pick runs that feel right, and enjoy the mountain.'}`],
+            ['12:30 PM', `Lunch break at the lodge. ${resort.name === 'Deer Valley' ? 'Deer Valley's on-mountain dining is exceptional — worth the premium.' : 'Pack lunch to save money, or grab a quick bite at the base lodge.'}`],
+            ['1:30 PM', `Afternoon session. ${skill === 'advanced' || skill === 'expert' ? `Hit ${resort.topRuns[0]} and ${resort.topRuns[1]} — these are the marquee runs.` : 'Take on a couple new runs you haven't tried yet.'}`],
+            ['3:30 PM', 'Final runs as the light gets softer — late afternoon light on the snow is unreal.'],
+            ['4:30 PM', `Last chair. Return gear, change, then head to après ski — ${vibe === 'social' || vibe === 'chill' ? 'a key part of the experience.' : 'even if it\'s just 30 minutes for a drink.'}`],
+          ]);
+        } else if (d === 2) {
+          html += schedule([
+            ['7:30 AM', 'Earlier start today — you know the mountain now. Check overnight snow report for fresh powder.'],
+            ['8:50 AM', `First chair. ${skill === 'expert' ? 'Lap the steepest terrain before it gets tracked out.' : 'Start with your favorite runs from yesterday, then explore new terrain.'}`],
+            ['11:00 AM', `Take a break. ${resort.name === 'Alta + Snowbird' ? 'Try the Tram at Snowbird for incredible views and access to Hidden Peak.' : 'Explore a different part of the mountain you haven\'t been to yet.'}`],
+            ['12:00 PM', `Lunch. Budget tip: load up at breakfast and go light at lunch to save $15–25.`],
+            ['1:00 PM', `Final push. ${vibe === 'send-it' ? `Aim for ${resort.topRuns[2] || resort.topRuns[0]} — your legs should be warmed up by now.` : 'Take it easy and enjoy your last full afternoon on the mountain.'}`],
+            ['3:30 PM', `Wrap up and celebrate. You earned it. Check conditions for tomorrow if staying longer.`],
+          ]);
+        } else if (d === 3) {
+          html += schedule([
+            ['8:00 AM', 'Third day — check the powder report. Midweek storms often bring fresh snow with fewer crowds.'],
+            ['9:00 AM', `Explore terrain you missed. ${resort.topRuns[3] || resort.topRuns[0]} is a must-do if you haven't gone yet.`],
+            ['12:00 PM', 'Relaxed lunch. You\'ve put in big miles — be strategic about your afternoon energy.'],
+            ['1:30 PM', `Finish strong with your favorite runs of the trip.`],
+            ['3:30 PM', 'Last laps, photos, soak in the final views.'],
+          ]);
+        } else {
+          html += `<div class="time-entry"><span class="time-text" style="color:rgba(255,255,255,.55);">Continue exploring the mountain. Extended trips reveal runs you'd never find on day 1.</span></div>`;
+        }
+
+        html += `</div>`; // end day-block
+      }
+      if (days > 4) {
+        html += `<div class="day-block"><div class="day-label">Days 4–${days}</div>
+          <div class="time-entry"><span class="time-text">Keep exploring. On a week-long trip, branch out to nearby resorts — Utah's ski pass options make multi-resort days easy.</span></div></div>`;
+      }
+      return html;
+    }
+
+    function schedule(entries) {
+      return entries.map(([time, text]) =>
+        `<div class="time-entry"><span class="time-label">${time}</span><span class="time-text">${text}</span></div>`
+      ).join('');
+    }
+
+    // ── Gear checklist ──
+    function buildGear(skill, activity, duration) {
+      const base = [
+        ['Helmet', '✓'], ['Goggles', '✓'], ['Waterproof jacket', '✓'],
+        ['Ski/board pants', '✓'], ['Base layer (top)', '✓'], ['Base layer (bottom)', '✓'],
+        ['Mid layer (fleece/down)', '✓'], ['Gloves or mitts', '✓'],
+        ['Wool or tech socks', '✓'], ['Neck gaiter', '✓'],
+        ['Sunscreen (high altitude!)', '✓'], ['Lip balm w/ SPF', '✓'],
+        ['Snacks + water bottle', '✓'], ['Charged phone', '✓'],
+        ['Cash for tips', '✓'], ['Lift ticket / pass', '✓'],
+      ];
+      if (skill === 'advanced' || skill === 'expert') {
+        base.push(['Avalanche beacon', '✓'], ['Probe + shovel', '✓'], ['Touring skis (if BC)', '✓']);
+      }
+      if (duration === 'weekend' || duration === 'threeday' || duration === 'week') {
+        base.push(['Ibuprofen (legs will hurt)', '✓'], ['Boot dryer (hotel hack)', '✓'], ['Ski bag / boot bag', '✓']);
+      }
+      if (activity === 'snowboarding' || activity === 'both') {
+        base.push(['Wrist guards (optional)', '✓'], ['Board wax / stomp pad', '✓']);
+      }
+      return base.map(([item]) =>
+        `<div class="check-item"><div class="checkmark">✓</div><span>${item}</span></div>`
+      ).join('');
+    }
+
+    // ── Budget breakdown ──
+    function buildBudget(resort, budget, stay, duration, groupSize) {
+      const days = { day: 1, weekend: 2, threeday: 3, week: 7 }[duration];
+      const ticketCost = resort.liftTicket[budget] * days;
+      const lodgingCost = resort.lodgingPerNight[stay] * Math.max(days - 1, 0);
+      const foodCost = (budget === 'budget' ? 35 : budget === 'moderate' ? 60 : budget === 'splurge' ? 90 : 130) * days;
+      const rentalCost = budget === 'budget' ? 45 * days : 0;
+      const misc = Math.round((ticketCost + foodCost) * .08);
+      const total = ticketCost + lodgingCost + foodCost + rentalCost + misc;
+
+      let html = '';
+      const rows = [
+        ['Lift tickets', `$${ticketCost}`],
+        ['Lodging', stay === 'commute' ? '—' : `$${lodgingCost}`],
+        ['Food &amp; drink', `$${foodCost}`],
+      ];
+      if (rentalCost > 0) rows.push(['Gear rental (est.)', `$${rentalCost}`]);
+      rows.push(['Gas / transport + misc', `$${misc}`]);
+
+      html = rows.map(([item, cost]) =>
+        `<div class="budget-row"><span class="item">${item}</span><span class="cost">${cost}</span></div>`
+      ).join('');
+      html += `<div class="budget-total"><span>Estimated Total</span><span>$${total}</span></div>`;
+      html += `<p style="color:rgba(255,255,255,.4); font-size:.78rem; margin-top:14px;">* Estimates based on ${days}-day trip. Prices vary by season and availability. Buy lift tickets online in advance to save 15–30%.</p>`;
+      return html;
+    }
+
+    // ── Pro tips ──
+    function buildTips(resort, skill, vibe) {
+      const tips = [
+        `Buy your lift tickets online at least a week out — most Utah resorts offer 15–30% discounts for advance purchase.`,
+        `Check the Utah Avalanche Center (utahavalanchecenter.org) every morning before heading up Little Cottonwood Canyon.`,
+        `Parking fills fast at Alta and Snowbird. Arrive before 8:30am or take the UTA ski bus from SLC — free with lift ticket.`,
+        `Goggle lens tip: use a high-contrast rose/amber lens on cloudy days, dark lens on bluebird days. Swap mid-day if needed.`,
+        `The "Pizza/French Fry" technique is real — new skiers, don't skip it. Mastering the pizza stop = confidence on steeper terrain.`,
+        `Eat a real breakfast. Skiing at altitude burns 600–900 calories per hour. Don't rely on mountain lodge prices to sustain you.`,
+        `Dehydration hits harder at altitude. Drink more water than you think you need — every run.`,
+      ];
+      if (resort.name.includes('Alta') || resort.name.includes('Snowbird')) {
+        tips.push(`Alta and Snowbird share an interconnect — you can traverse between them for free. It unlocks massive terrain options.`);
+      }
+      if (skill === 'expert' || skill === 'advanced') {
+        tips.push(`Sign up for a backcountry touring course at a local guide service before venturing beyond resort boundaries. The consequences of getting it wrong are severe.`);
+      }
+      if (vibe === 'social') {
+        tips.push(`Après ski culture is huge in Park City. Main Street has dozens of bars and restaurants — plan to end your day around 4pm and head there.`);
+      }
+      tips.push(`Cold? Skiing makes you feel warmer than you are. Dress in layers you can stash in your jacket — don't sacrifice protection for comfort.`);
+
+      return tips.map(t =>
+        `<div class="time-entry" style="margin-bottom:12px;">
+           <span class="time-label" style="color: var(--gold); min-width: 20px;">❄</span>
+           <span class="time-text">${t}</span>
+         </div>`
+      ).join('');
+    }
+
+    // ── Main generate function ──
+    function generatePlan() {
+      // Read inputs
+      const activity = document.querySelector('#activity-chips .chip.selected')?.dataset.val || 'skiing';
+      const skill    = document.getElementById('skill').value;
+      const vibe     = document.getElementById('vibe').value;
+      const groupSize= document.getElementById('group-size').value;
+      const duration = document.getElementById('duration').value;
+      const stay     = document.getElementById('stay').value;
+      const resortPref = document.getElementById('resort-pref').value;
+      const budget   = document.getElementById('budget').value;
+
+      // Pick resort
+      let resortKey;
+      if (resortPref === 'surprise') {
+        // Smart suggestion based on skill
+        const matches = RESORT_KEYS.filter(k => RESORTS[k].bestFor.includes(skill));
+        resortKey = matches[Math.floor(Math.random() * matches.length)] || RESORT_KEYS[0];
+      } else {
+        resortKey = resortPref;
+      }
+      const resort = RESORTS[resortKey];
+
+      // Difficulty badge
+      const badges = {
+        beginner: ['beginner', '🟢 Beginner'],
+        intermediate: ['intermediate', '🔵 Intermediate'],
+        advanced: ['advanced', '⚫ Advanced'],
+        expert: ['expert', '💀 Expert'],
+      };
+      const [badgeClass, badgeLabel] = badges[skill];
+
+      // Trip name
+      const tripNames = {
+        'send-it': ['MAXIMUM VERTICAL', 'SEND IT SEASON', 'ALL-DAY RIPPER'],
+        'chill': ['POWDER & CHILL', 'BLUEBIRD VIBES', 'EASY SHRED DAY'],
+        'social': ['APRÈS ALL DAY', 'CREW WEEKEND', 'MOUNTAIN SOCIAL'],
+        'adventure': ['BOUNDARY PUSH', 'BEYOND THE ROPE', 'WILD LINES'],
+      };
+      const nameOptions = tripNames[vibe] || ['UTAH SKI TRIP'];
+      const tripName = nameOptions[Math.floor(Math.random() * nameOptions.length)];
+
+      const durations = { day: '1-Day', weekend: '2-Day', threeday: '3-Day', week: '7-Day' };
+      const groupLabels = { solo: 'Solo Trip', duo: 'Duo Trip', small: 'Small Group', large: 'Crew Trip' };
+
+      // Populate UI
+      document.getElementById('result-title').textContent = tripName;
+      document.getElementById('result-subtitle').textContent = `${resort.name} · ${durations[duration]} ${groupLabels[groupSize]}`;
+      document.getElementById('difficulty-badge').innerHTML =
+        `<span class="difficulty-badge badge-${badgeClass}">${badgeLabel}</span>`;
+
+      // Info pills
+      document.getElementById('info-pills').innerHTML = [
+        ['🏔', resort.vertical],
+        ['❄', resort.snowfall],
+        ['📅', `${durations[duration]} trip`],
+        ['👥', groupLabels[groupSize]],
+        ['🎿', resort.liftNote],
+      ].map(([icon, text]) => `<div class="pill"><span class="icon">${icon}</span>${text}</div>`).join('');
+
+      // Tab contents
+      document.getElementById('itinerary-content').innerHTML = buildItinerary(resort, skill, vibe, duration, activity);
+      document.getElementById('gear-content').innerHTML = buildGear(skill, activity, duration);
+      document.getElementById('budget-content').innerHTML = buildBudget(resort, budget, stay, duration, groupSize);
+      document.getElementById('tips-content').innerHTML = buildTips(resort, skill, vibe);
+
+      // Reset tab to itinerary
+      document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === 0));
+
+      // Show result, hide form
+      document.getElementById('planner-form').style.display = 'none';
+      document.getElementById('result-section').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
